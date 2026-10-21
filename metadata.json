@@ -1,0 +1,6 @@
+{
+  "name": "PortfolioOverlap Pro — Multi-Fund Concentration Analyzer",
+  "description": "Analyze mutual fund portfolio overlap across 2 to 15+ funds with pairwise heatmap matrices, aggregated stock concentration, sector exposure, and Venn diagnostics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
