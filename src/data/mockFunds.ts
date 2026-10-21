@@ -656,8 +656,8 @@ export const PORTFOLIO_PRESETS = [
     ],
   },
   {
-    id: 'finnovate-2-funds',
-    name: 'Finnovate 2-Fund Pair (Exact Screenshot)',
+    id: 'core-2-funds',
+    name: 'Core 2-Fund Focus (Opportunities vs Flexi Cap)',
     description: 'ICICI Pru India Opportunities vs Parag Parikh Flexi Cap (30.1% overlap).',
     fundIds: [
       'icici-pru-opportunities',

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { MutualFund } from './types/portfolio';
 import { POPULAR_MUTUAL_FUNDS, PORTFOLIO_PRESETS } from './data/mockFunds';
 import {
@@ -14,6 +14,11 @@ import {
   calculatePortfolioConcentration,
   calculateSectorExposure,
 } from './utils/overlapCalculator';
+import {
+  getAllCustomPresets,
+  deleteCustomPreset,
+  CustomPreset,
+} from './utils/indexedDb';
 import { Navbar } from './components/Navbar';
 import { FundSelectorTray } from './components/FundSelectorTray';
 import { HeatmapMatrix } from './components/HeatmapMatrix';
@@ -23,6 +28,7 @@ import { SectorMarketCapView } from './components/SectorMarketCapView';
 import { RedundancyOptimizer } from './components/RedundancyOptimizer';
 import { AddFundModal } from './components/AddFundModal';
 import { DataSourceModal } from './components/DataSourceModal';
+import { SavePresetModal } from './components/SavePresetModal';
 import {
   Grid,
   GitCompare,
@@ -45,6 +51,17 @@ export default function App() {
       .map((id) => POPULAR_MUTUAL_FUNDS.find((f) => f.id === id))
       .filter((f): f is MutualFund => f !== undefined);
   });
+
+  // Custom presets saved in IndexedDB
+  const [customPresets, setCustomPresets] = useState<CustomPreset[]>([]);
+  const [isSavePresetModalOpen, setIsSavePresetModalOpen] = useState<boolean>(false);
+
+  // Load custom presets on startup from IndexedDB
+  useEffect(() => {
+    getAllCustomPresets()
+      .then((presets) => setCustomPresets(presets))
+      .catch((err) => console.error('Failed to load custom presets from IndexedDB:', err));
+  }, []);
 
   // Pairwise selection for deep-dive (default to the two in user screenshot!)
   const [selectedAId, setSelectedAId] = useState<string>('icici-pru-opportunities');
@@ -93,21 +110,59 @@ export default function App() {
     return calculatePairwiseOverlap(fundA, fundB);
   }, [funds, selectedAId, selectedBId]);
 
-  // Handle preset selection
+  // Handle preset selection (both built-in presets and IndexedDB custom presets)
   const handleSelectPreset = (presetId: string) => {
     setActivePresetId(presetId);
-    const preset = PORTFOLIO_PRESETS.find((p) => p.id === presetId);
-    if (!preset) return;
 
-    const newFunds = preset.fundIds
-      .map((id) => POPULAR_MUTUAL_FUNDS.find((f) => f.id === id))
-      .filter((f): f is MutualFund => f !== undefined);
+    // 1. Check built-in preset
+    const builtInPreset = PORTFOLIO_PRESETS.find((p) => p.id === presetId);
+    if (builtInPreset) {
+      const newFunds = builtInPreset.fundIds
+        .map((id) => POPULAR_MUTUAL_FUNDS.find((f) => f.id === id))
+        .filter((f): f is MutualFund => f !== undefined);
 
-    setFunds(newFunds);
-    if (newFunds.length >= 2) {
-      setSelectedAId(newFunds[0].id);
-      setSelectedBId(newFunds[1].id);
+      setFunds(newFunds);
+      if (newFunds.length >= 2) {
+        setSelectedAId(newFunds[0].id);
+        setSelectedBId(newFunds[1].id);
+      }
+      return;
     }
+
+    // 2. Check IndexedDB custom preset
+    const customPreset = customPresets.find((p) => p.id === presetId);
+    if (customPreset) {
+      const newFunds = customPreset.fundIds
+        .map((id) => POPULAR_MUTUAL_FUNDS.find((f) => f.id === id) || funds.find((f) => f.id === id))
+        .filter((f): f is MutualFund => f !== undefined);
+
+      if (newFunds.length > 0) {
+        setFunds(newFunds);
+        if (newFunds.length >= 2) {
+          setSelectedAId(newFunds[0].id);
+          setSelectedBId(newFunds[1].id);
+        }
+      }
+    }
+  };
+
+  // Delete custom preset from IndexedDB
+  const handleDeleteCustomPreset = async (id: string) => {
+    try {
+      await deleteCustomPreset(id);
+      setCustomPresets((prev) => prev.filter((p) => p.id !== id));
+      if (activePresetId === id) {
+        handleSelectPreset(PORTFOLIO_PRESETS[0].id);
+      }
+    } catch (err) {
+      console.error('Failed to delete custom preset:', err);
+    }
+  };
+
+  // Preset saved callback from SavePresetModal
+  const handlePresetSaved = (saved: CustomPreset) => {
+    setCustomPresets((prev) => [saved, ...prev.filter((p) => p.id !== saved.id)]);
+    setActivePresetId(saved.id);
   };
 
   // Add fund handlers
@@ -151,13 +206,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 font-sans flex flex-col antialiased selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex flex-col antialiased selection:bg-emerald-100 selection:text-emerald-900 transition-colors">
       {/* Top Navbar */}
       <Navbar
         onSelectPreset={handleSelectPreset}
         activePresetId={activePresetId}
         totalFunds={funds.length}
         onOpenDataSources={() => setIsDataSourceModalOpen(true)}
+        customPresets={customPresets}
+        onOpenSavePreset={() => setIsSavePresetModalOpen(true)}
+        onDeleteCustomPreset={handleDeleteCustomPreset}
       />
 
       {/* Main Container */}
@@ -213,24 +271,25 @@ export default function App() {
           selectedAId={selectedAId}
           selectedBId={selectedBId}
           onSelectPair={handleSelectPair}
+          onOpenSavePreset={() => setIsSavePresetModalOpen(true)}
         />
 
         {/* View Navigation Tabs */}
-        <div className="bg-white rounded-xl border border-slate-200 p-1.5 flex flex-wrap items-center gap-1 shadow-2xs">
+        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-1.5 flex flex-wrap items-center gap-1 shadow-2xs transition-colors">
           <button
             type="button"
             onClick={() => setActiveViewTab('matrix')}
             className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               activeViewTab === 'matrix'
                 ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <Grid className="w-4 h-4" />
             <span>Overlap Heatmap Matrix</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'matrix' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 text-slate-600'
+                activeViewTab === 'matrix' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
               }`}
             >
               {funds.length}&times;{funds.length}
@@ -243,14 +302,14 @@ export default function App() {
             className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               activeViewTab === 'pairwise'
                 ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <GitCompare className="w-4 h-4" />
             <span>Pairwise Venn &amp; Holdings</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'pairwise' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 text-slate-600'
+                activeViewTab === 'pairwise' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
               }`}
             >
               {currentPairOverlap.overlapWeightPercent}%
@@ -263,14 +322,14 @@ export default function App() {
             className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               activeViewTab === 'aggregated'
                 ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <Layers className="w-4 h-4" />
             <span>Consolidated Holdings</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'aggregated' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 text-slate-600'
+                activeViewTab === 'aggregated' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
               }`}
             >
               {consolidatedStocks.length}
@@ -283,7 +342,7 @@ export default function App() {
             className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               activeViewTab === 'sectors'
                 ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <PieChart className="w-4 h-4" />
@@ -296,7 +355,7 @@ export default function App() {
             className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               activeViewTab === 'redundancy'
                 ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <ShieldAlert className="w-4 h-4" />
@@ -380,15 +439,23 @@ export default function App() {
         onClose={() => setIsDataSourceModalOpen(false)}
       />
 
+      {/* Save Custom Preset to IndexedDB Modal */}
+      <SavePresetModal
+        isOpen={isSavePresetModalOpen}
+        onClose={() => setIsSavePresetModalOpen(false)}
+        currentFunds={funds}
+        onPresetSaved={handlePresetSaved}
+      />
+
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500 print:hidden">
+      <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6 text-center text-xs text-slate-500 dark:text-slate-400 print:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">PortfolioOverlap Pro</span>
+            <span className="font-bold text-slate-800 dark:text-slate-200">PortfolioOverlap Pro</span>
             <span>&bull;</span>
             <span>Analyzes portfolio concentration &amp; diversification risks across mutual funds</span>
           </div>
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-slate-400 dark:text-slate-500">
             Holdings data normalized for exact equity overlaps. Portfolio weights adjust effective stock exposures.
           </div>
         </div>

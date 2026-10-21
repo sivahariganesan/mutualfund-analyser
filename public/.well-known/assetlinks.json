@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.portfoliooverlap.pro",
+    "sha256_cert_fingerprints": [
+      "14:6D:E9:7E:0F:52:AB:E0:41:F0:8A:24:D3:5B:C2:E6:AA:20:9A:8B:1A:1C:18:7E:59:7A:B4:73:C0:0E:64:18"
+    ]
+  }
+}]

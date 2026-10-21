@@ -3,7 +3,7 @@
 A mutual funds overlap and portfolio concentration analysis engine capable of comparing across **2 to 15+ mutual funds** simultaneously.
 
 Includes:
-- **Pairwise Overlap Deep Dive & SVG Venn Diagram** (reproducing the Finnovate 30.1% overlap benchmark for *ICICI Pru India Opportunities* vs *Parag Parikh Flexi Cap*).
+- **Pairwise Overlap Deep Dive & SVG Venn Diagram** (reproducing the verified 30.1% overlap benchmark for *ICICI Pru India Opportunities* vs *Parag Parikh Flexi Cap*).
 - **11-Fund Overlap Heatmap Matrix ($N \times N$)**.
 - **Consolidated Stock Holdings** with weighted portfolio impact and fund incidence counters.
 - **Sector & Market Cap Breakdown**.

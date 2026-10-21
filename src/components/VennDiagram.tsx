@@ -101,23 +101,23 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
         </svg>
       </div>
 
-      {/* Legend below the Venn diagram matching screenshot style */}
-      <div className="flex flex-col gap-2.5 mt-2 text-xs text-slate-700 w-full max-w-[360px] px-4">
+      {/* Legend below the Venn diagram */}
+      <div className="flex flex-col gap-2.5 mt-2 text-xs text-slate-700 dark:text-slate-300 w-full max-w-[360px] px-4">
         <div className="flex items-center gap-2.5">
           <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: colorA }} />
-          <span className="truncate font-medium text-slate-800" title={fundAName}>
+          <span className="truncate font-medium text-slate-800 dark:text-slate-200" title={fundAName}>
             {fundAName}
           </span>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: colorB }} />
-          <span className="truncate font-medium text-slate-800" title={fundBName}>
+          <span className="truncate font-medium text-slate-800 dark:text-slate-200" title={fundBName}>
             {fundBName}
           </span>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="w-3.5 h-3.5 rounded-full shrink-0 bg-emerald-700" />
-          <span className="text-slate-600 font-medium">Common holdings ({overlapPercent}% overlap)</span>
+          <span className="text-slate-600 dark:text-slate-400 font-medium">Common holdings ({overlapPercent}% overlap)</span>
         </div>
       </div>
     </div>
