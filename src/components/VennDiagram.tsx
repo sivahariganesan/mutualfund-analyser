@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface VennDiagramProps {
   fundAName: string;
@@ -15,12 +16,17 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
   fundBName,
   overlapPercent,
   commonStocksCount,
-  colorA = '#4d857c',
-  colorB = '#c7945d',
+  colorA,
+  colorB,
 }) => {
+  const { isDark } = useTheme();
+
+  // Zed editor dark theme colors vs light theme palette
+  const effectiveColorA = colorA || (isDark ? '#56b6c2' : '#4d857c'); // Zed Cyan vs Forest Teal
+  const effectiveColorB = colorB || (isDark ? '#e5c07b' : '#c7945d'); // Zed Peach vs Warm Amber
+  const effectiveColorCommon = isDark ? '#98c379' : '#2f855a'; // Zed Mint vs Deep Emerald
+
   // Distance between circle centers depends slightly on overlap %:
-  // High overlap (e.g. 50%) -> circles closer (e.g. dx = 70)
-  // Low overlap (e.g. 10%) -> circles further (e.g. dx = 130)
   const clampedOverlap = Math.max(5, Math.min(80, overlapPercent));
   const centerDistance = 145 - (clampedOverlap / 100) * 80;
 
@@ -35,7 +41,7 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
         <svg viewBox="0 0 400 260" className="w-full h-full drop-shadow-sm select-none">
           <defs>
             <filter id="venn-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="2" stdDeviation="4" floodOpacity="0.08" />
+              <feDropShadow dx="0" dy="2" stdDeviation="4" floodOpacity={isDark ? "0.25" : "0.08"} />
             </filter>
             {/* Intersection clip path */}
             <clipPath id="circle-a-clip">
@@ -48,8 +54,8 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
             cx={cx1}
             cy={cy}
             r={r}
-            fill={colorA}
-            opacity="0.88"
+            fill={effectiveColorA}
+            opacity={isDark ? "0.82" : "0.88"}
             className="transition-all duration-300"
           />
 
@@ -58,8 +64,8 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
             cx={cx2}
             cy={cy}
             r={r}
-            fill={colorB}
-            opacity="0.88"
+            fill={effectiveColorB}
+            opacity={isDark ? "0.82" : "0.88"}
             className="transition-all duration-300"
           />
 
@@ -69,8 +75,8 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
               cx={cx2}
               cy={cy}
               r={r}
-              fill="#2f855a"
-              opacity="0.95"
+              fill={effectiveColorCommon}
+              opacity={isDark ? "0.95" : "0.95"}
               className="transition-all duration-300"
             />
           </g>
@@ -82,7 +88,7 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
             textAnchor="middle"
             dominantBaseline="middle"
             fill="#ffffff"
-            className="font-bold text-lg select-none pointer-events-none drop-shadow-sm"
+            className="font-bold select-none pointer-events-none drop-shadow-sm font-mono"
             style={{ fontWeight: 800, fontSize: '18px' }}
           >
             {overlapPercent}%
@@ -92,9 +98,9 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
             y={cy + 18}
             textAnchor="middle"
             dominantBaseline="middle"
-            fill="rgba(255,255,255,0.9)"
-            className="text-xs select-none pointer-events-none font-medium"
-            style={{ fontSize: '10px' }}
+            fill="rgba(255,255,255,0.95)"
+            className="select-none pointer-events-none font-medium"
+            style={{ fontSize: '11px' }}
           >
             {commonStocksCount} common
           </text>
@@ -104,20 +110,31 @@ export const VennDiagram: React.FC<VennDiagramProps> = ({
       {/* Legend below the Venn diagram */}
       <div className="flex flex-col gap-2.5 mt-2 text-xs text-slate-700 dark:text-slate-300 w-full max-w-[360px] px-4">
         <div className="flex items-center gap-2.5">
-          <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: colorA }} />
+          <span
+            className="w-3.5 h-3.5 rounded-full shrink-0"
+            style={{ backgroundColor: effectiveColorA }}
+          />
           <span className="truncate font-medium text-slate-800 dark:text-slate-200" title={fundAName}>
             {fundAName}
           </span>
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: colorB }} />
+          <span
+            className="w-3.5 h-3.5 rounded-full shrink-0"
+            style={{ backgroundColor: effectiveColorB }}
+          />
           <span className="truncate font-medium text-slate-800 dark:text-slate-200" title={fundBName}>
             {fundBName}
           </span>
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="w-3.5 h-3.5 rounded-full shrink-0 bg-emerald-700" />
-          <span className="text-slate-600 dark:text-slate-400 font-medium">Common holdings ({overlapPercent}% overlap)</span>
+          <span
+            className="w-3.5 h-3.5 rounded-full shrink-0"
+            style={{ backgroundColor: effectiveColorCommon }}
+          />
+          <span className="text-slate-600 dark:text-slate-400 font-medium">
+            Common holdings ({overlapPercent}% overlap)
+          </span>
         </div>
       </div>
     </div>

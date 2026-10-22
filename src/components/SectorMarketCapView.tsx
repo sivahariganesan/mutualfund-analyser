@@ -18,15 +18,15 @@ export const SectorMarketCapView: React.FC<SectorMarketCapViewProps> = ({
   const getCapColor = (cat: string) => {
     switch (cat) {
       case 'Giant':
-        return { bg: 'bg-indigo-600', text: 'text-indigo-900', border: 'border-indigo-200' };
+        return { bg: 'bg-indigo-600 dark:bg-[#61afef]', text: 'text-indigo-900 dark:text-[#61afef]', border: 'border-indigo-200 dark:border-[#2d4566]' };
       case 'Large':
-        return { bg: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200' };
+        return { bg: 'bg-blue-600 dark:bg-[#56b6c2]', text: 'text-blue-900 dark:text-[#56b6c2]', border: 'border-blue-200 dark:border-[#204a52]' };
       case 'Mid':
-        return { bg: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200' };
+        return { bg: 'bg-purple-600 dark:bg-[#c678dd]', text: 'text-purple-900 dark:text-[#c678dd]', border: 'border-purple-200 dark:border-[#523360]' };
       case 'Small':
-        return { bg: 'bg-emerald-600', text: 'text-emerald-900', border: 'border-emerald-200' };
+        return { bg: 'bg-emerald-600 dark:bg-[#98c379]', text: 'text-emerald-900 dark:text-[#98c379]', border: 'border-emerald-200 dark:border-[#2b4c37]' };
       default:
-        return { bg: 'bg-slate-600', text: 'text-slate-900', border: 'border-slate-200' };
+        return { bg: 'bg-slate-600 dark:bg-[#e5c07b]', text: 'text-slate-900 dark:text-[#e5c07b]', border: 'border-slate-200 dark:border-[#544321]' };
     }
   };
 
@@ -42,13 +42,13 @@ export const SectorMarketCapView: React.FC<SectorMarketCapViewProps> = ({
             </p>
           </div>
           {isHighSectorConcentration ? (
-            <div className="flex items-center gap-1.5 text-xs text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 px-2.5 py-1 rounded-md border border-amber-200 dark:border-amber-900/40 font-medium">
-              <AlertCircle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <div className="flex items-center gap-1.5 text-xs text-amber-800 dark:text-[#e5c07b] bg-amber-50 dark:bg-[#282115] px-2.5 py-1 rounded-md border border-amber-200 dark:border-[#473a1e] font-medium">
+              <AlertCircle className="w-3.5 h-3.5 text-amber-600 dark:text-[#e5c07b]" />
               <span>Heavy {topSector.sector} weight ({topSector.weight}%)</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-md border border-emerald-200 dark:border-emerald-900/40 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <div className="flex items-center gap-1.5 text-xs text-emerald-800 dark:text-[#98c379] bg-emerald-50 dark:bg-[#15251d] px-2.5 py-1 rounded-md border border-emerald-200 dark:border-[#224230] font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-[#98c379]" />
               <span>Healthy sector spread</span>
             </div>
           )}
@@ -66,16 +66,20 @@ export const SectorMarketCapView: React.FC<SectorMarketCapViewProps> = ({
                 </span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{sec.weight}%</span>
               </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-[#212128] h-2 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     idx === 0
-                      ? 'bg-emerald-700'
+                      ? 'bg-emerald-700 dark:bg-[#56b6c2]'
                       : idx === 1
-                      ? 'bg-teal-600'
+                      ? 'bg-teal-600 dark:bg-[#61afef]'
                       : idx === 2
-                      ? 'bg-cyan-600'
-                      : 'bg-slate-500 dark:bg-slate-600'
+                      ? 'bg-cyan-600 dark:bg-[#98c379]'
+                      : idx === 3
+                      ? 'bg-indigo-600 dark:bg-[#e5c07b]'
+                      : idx === 4
+                      ? 'bg-purple-600 dark:bg-[#c678dd]'
+                      : 'bg-slate-500 dark:bg-[#3f4454]'
                   }`}
                   style={{ width: `${Math.min(100, sec.weight * 2.5)}%` }}
                 />

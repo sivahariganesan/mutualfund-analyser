@@ -81,11 +81,11 @@ export const RedundancyOptimizer: React.FC<RedundancyOptimizerProps> = ({
 
         {/* Alerts List */}
         {redundancyAlerts.length === 0 ? (
-          <div className="p-5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/40 text-emerald-900 dark:text-emerald-200 flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+          <div className="p-5 rounded-lg bg-emerald-50 dark:bg-[#15251d] border border-emerald-200 dark:border-[#244533] text-emerald-900 dark:text-[#98c379] flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-[#98c379] shrink-0" />
             <div>
               <div className="font-bold text-sm">No High-Risk Redundancy Detected!</div>
-              <div className="text-xs text-emerald-700 dark:text-emerald-400">
+              <div className="text-xs text-emerald-700 dark:text-[#98c379]">
                 None of your selected funds exceed the 30% overlap threshold. Your portfolio has clean diversification across segments.
               </div>
             </div>
@@ -97,16 +97,16 @@ export const RedundancyOptimizer: React.FC<RedundancyOptimizerProps> = ({
                 key={`${alert.fundAId}-${alert.fundBId}-${idx}`}
                 className={`p-4 rounded-xl border text-xs space-y-2 transition-all ${
                   alert.severity === 'critical'
-                    ? 'bg-rose-50/50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/40'
-                    : 'bg-amber-50/40 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/40'
+                    ? 'bg-rose-50/50 dark:bg-[#2b171b]/60 border-rose-200 dark:border-[#52242a]'
+                    : 'bg-amber-50/40 dark:bg-[#282114]/60 border-amber-200 dark:border-[#4d3d1a]'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span
                     className={`font-mono font-bold px-2 py-0.5 rounded text-[11px] ${
                       alert.severity === 'critical'
-                        ? 'bg-rose-600 text-white'
-                        : 'bg-amber-600 text-white'
+                        ? 'bg-rose-600 dark:bg-[#e06c75] text-white dark:text-[#141416]'
+                        : 'bg-amber-600 dark:bg-[#e5c07b] text-white dark:text-[#141416]'
                     }`}
                   >
                     {alert.overlapPercent}% Overlap
@@ -114,7 +114,7 @@ export const RedundancyOptimizer: React.FC<RedundancyOptimizerProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectPair(alert.fundAId, alert.fundBId)}
-                    className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-emerald-800 dark:hover:text-emerald-400 underline cursor-pointer"
+                    className="text-xs font-semibold text-slate-700 dark:text-zinc-300 hover:text-emerald-800 dark:hover:text-[#56b6c2] underline cursor-pointer"
                   >
                     Compare Pair &rarr;
                   </button>

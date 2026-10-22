@@ -206,7 +206,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex flex-col antialiased selection:bg-emerald-100 selection:text-emerald-900 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex flex-col antialiased selection:bg-emerald-100 selection:text-emerald-900 transition-colors w-full max-w-full overflow-x-hidden">
       {/* Top Navbar */}
       <Navbar
         onSelectPreset={handleSelectPreset}
@@ -219,40 +219,39 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5 sm:space-y-6 min-w-0 max-w-full">
         {/* Welcome & Quick Summary Banner */}
-        <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-2xl p-6 shadow-sm border border-emerald-800/40 relative overflow-hidden">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 dark:from-[#151c22] dark:via-[#191d26] dark:to-[#14151a] text-white rounded-2xl p-4 sm:p-6 shadow-sm border border-emerald-800/40 dark:border-[#272a38] relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-96 h-96 bg-emerald-500/10 dark:bg-[#56b6c2]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
           
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-1.5 max-w-2xl">
-              <div className="inline-flex items-center gap-2 bg-emerald-800/60 px-3 py-1 rounded-full text-xs font-semibold text-emerald-200 border border-emerald-700/50">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+            <div className="space-y-1.5 max-w-2xl min-w-0">
+              <div className="inline-flex items-center gap-2 bg-emerald-800/60 dark:bg-[#162720] px-3 py-1 rounded-full text-xs font-semibold text-emerald-200 dark:text-[#98c379] border border-emerald-700/50 dark:border-[#274435]">
                 <span>{funds.length} Schemes Analyzed</span>
                 <span>&bull;</span>
                 <span>{summary.totalUniqueStocks} Unique Companies</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
                 Mutual Funds Overlap &amp; Concentration Engine
               </h1>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+              <p className="text-slate-300 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
                 Compare across 2 to 15+ mutual funds simultaneously. Detect hidden holding duplication, identify concentrated single-stock exposures, and optimize true portfolio diversification.
               </p>
             </div>
 
-            {/* Quick KPI Pill Cluster */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 shrink-0">
-              <div className="bg-white/10 backdrop-blur-xs p-3 rounded-xl border border-white/10 text-center">
-                <span className="text-[10px] uppercase font-semibold text-emerald-300 block">Avg Overlap</span>
-                <span className="text-xl font-bold font-mono">{summary.averagePairwiseOverlap}%</span>
+            {/* Quick KPI Cluster */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 shrink-0 w-full md:w-auto">
+              <div className="bg-white/10 dark:bg-[#1b1c24]/80 backdrop-blur-xs p-2.5 sm:p-3 rounded-xl border border-white/10 dark:border-[#2e3040] text-center">
+                <span className="text-[10px] uppercase font-semibold text-emerald-300 dark:text-[#98c379] block">Avg Overlap</span>
+                <span className="text-lg sm:text-xl font-bold font-mono">{summary.averagePairwiseOverlap}%</span>
               </div>
-              <div className="bg-white/10 backdrop-blur-xs p-3 rounded-xl border border-white/10 text-center">
-                <span className="text-[10px] uppercase font-semibold text-emerald-300 block">Top 10 Weight</span>
-                <span className="text-xl font-bold font-mono">{summary.top10Weight}%</span>
+              <div className="bg-white/10 dark:bg-[#1b1c24]/80 backdrop-blur-xs p-2.5 sm:p-3 rounded-xl border border-white/10 dark:border-[#2e3040] text-center">
+                <span className="text-[10px] uppercase font-semibold text-emerald-300 dark:text-[#56b6c2] block">Top 10 Weight</span>
+                <span className="text-lg sm:text-xl font-bold font-mono">{summary.top10Weight}%</span>
               </div>
-              <div className="bg-white/10 backdrop-blur-xs p-3 rounded-xl border border-white/10 text-center col-span-2 sm:col-span-1">
-                <span className="text-[10px] uppercase font-semibold text-emerald-300 block">Health Score</span>
-                <span className="text-xl font-bold font-mono text-emerald-400">
+              <div className="bg-white/10 dark:bg-[#1b1c24]/80 backdrop-blur-xs p-2.5 sm:p-3 rounded-xl border border-white/10 dark:border-[#2e3040] text-center col-span-2 sm:col-span-1">
+                <span className="text-[10px] uppercase font-semibold text-emerald-300 dark:text-[#e5c07b] block">Health Score</span>
+                <span className="text-lg sm:text-xl font-bold font-mono text-emerald-400 dark:text-[#98c379]">
                   {summary.diversificationScore}/100
                 </span>
               </div>
@@ -275,21 +274,23 @@ export default function App() {
         />
 
         {/* View Navigation Tabs */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-1.5 flex flex-wrap items-center gap-1 shadow-2xs transition-colors">
+        <div className="bg-white dark:bg-[#18181b] rounded-xl border border-slate-200 dark:border-[#272730] p-1.5 flex items-center gap-1.5 overflow-x-auto shadow-2xs transition-colors max-w-full">
           <button
             type="button"
             onClick={() => setActiveViewTab('matrix')}
-            className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeViewTab === 'matrix'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-emerald-700 dark:bg-[#252834] text-white dark:text-[#61afef] dark:border dark:border-[#383d50] shadow-xs'
+                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-[#202028]'
             }`}
           >
             <Grid className="w-4 h-4" />
             <span>Overlap Heatmap Matrix</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'matrix' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                activeViewTab === 'matrix'
+                  ? 'bg-emerald-800 dark:bg-[#1c2230] text-emerald-100 dark:text-[#61afef]'
+                  : 'bg-slate-100 dark:bg-[#212128] text-slate-600 dark:text-zinc-300'
               }`}
             >
               {funds.length}&times;{funds.length}
@@ -299,17 +300,19 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveViewTab('pairwise')}
-            className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeViewTab === 'pairwise'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-emerald-700 dark:bg-[#252834] text-white dark:text-[#61afef] dark:border dark:border-[#383d50] shadow-xs'
+                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-[#202028]'
             }`}
           >
             <GitCompare className="w-4 h-4" />
             <span>Pairwise Venn &amp; Holdings</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'pairwise' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                activeViewTab === 'pairwise'
+                  ? 'bg-emerald-800 dark:bg-[#1c2230] text-emerald-100 dark:text-[#61afef]'
+                  : 'bg-slate-100 dark:bg-[#212128] text-slate-600 dark:text-zinc-300'
               }`}
             >
               {currentPairOverlap.overlapWeightPercent}%
@@ -319,17 +322,19 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveViewTab('aggregated')}
-            className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeViewTab === 'aggregated'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-emerald-700 dark:bg-[#252834] text-white dark:text-[#61afef] dark:border dark:border-[#383d50] shadow-xs'
+                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-[#202028]'
             }`}
           >
             <Layers className="w-4 h-4" />
             <span>Consolidated Holdings</span>
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                activeViewTab === 'aggregated' ? 'bg-emerald-800 text-emerald-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                activeViewTab === 'aggregated'
+                  ? 'bg-emerald-800 dark:bg-[#1c2230] text-emerald-100 dark:text-[#61afef]'
+                  : 'bg-slate-100 dark:bg-[#212128] text-slate-600 dark:text-zinc-300'
               }`}
             >
               {consolidatedStocks.length}
@@ -339,10 +344,10 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveViewTab('sectors')}
-            className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeViewTab === 'sectors'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-emerald-700 dark:bg-[#252834] text-white dark:text-[#61afef] dark:border dark:border-[#383d50] shadow-xs'
+                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-[#202028]'
             }`}
           >
             <PieChart className="w-4 h-4" />
@@ -352,16 +357,16 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveViewTab('redundancy')}
-            className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeViewTab === 'redundancy'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-emerald-700 dark:bg-[#252834] text-white dark:text-[#61afef] dark:border dark:border-[#383d50] shadow-xs'
+                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-[#202028]'
             }`}
           >
             <ShieldAlert className="w-4 h-4" />
             <span>Redundancy Optimizer</span>
             {summary.redundancyAlerts.length > 0 && (
-              <span className="text-[10px] px-1.5 py-0.2 rounded font-bold bg-amber-500 text-white">
+              <span className="text-[10px] px-1.5 py-0.2 rounded font-bold font-mono bg-amber-500 text-white">
                 {summary.redundancyAlerts.length}
               </span>
             )}

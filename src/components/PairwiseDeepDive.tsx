@@ -53,23 +53,23 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
     if (overlap >= 45) {
       return {
         label: 'HIGH OVERLAP',
-        bg: 'bg-rose-600',
-        textColor: 'text-rose-700',
+        bg: 'bg-rose-600 dark:bg-[#e06c75] dark:text-[#141416]',
+        textColor: 'text-rose-700 dark:text-[#e06c75]',
         subtext: 'High redundancy exists between these funds. Most holdings duplicate each other.',
       };
     }
     if (overlap >= 25) {
       return {
         label: 'MODERATE OVERLAP',
-        bg: 'bg-[#1864ab]',
-        textColor: 'text-[#1864ab]',
+        bg: 'bg-[#1864ab] dark:bg-[#61afef] dark:text-[#141416]',
+        textColor: 'text-[#1864ab] dark:text-[#61afef]',
         subtext: 'Some redundancy exists between these funds.',
       };
     }
     return {
       label: 'LOW OVERLAP',
-      bg: 'bg-emerald-600',
-      textColor: 'text-emerald-700',
+      bg: 'bg-emerald-600 dark:bg-[#98c379] dark:text-[#141416]',
+      textColor: 'text-emerald-700 dark:text-[#98c379]',
       subtext: 'Good diversification with minimal holding overlap.',
     };
   };
@@ -196,16 +196,17 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
   return (
     <div className="space-y-6">
       {/* Pair Switcher Controls */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 transition-colors">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 transition-colors max-w-full overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 min-w-0">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 shrink-0">
             Compare Pair:
           </span>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 min-w-0">
             <select
               value={selectedAId}
               onChange={(e) => onSelectA(e.target.value)}
-              className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-emerald-600 cursor-pointer"
+              className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-emerald-600 cursor-pointer w-full sm:w-auto max-w-full sm:max-w-[210px] truncate"
+              aria-label="Select Scheme A"
             >
               {funds.map((f) => (
                 <option key={`a-${f.id}`} value={f.id} disabled={f.id === selectedBId}>
@@ -214,12 +215,13 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               ))}
             </select>
 
-            <span className="text-xs font-bold text-slate-400">vs</span>
+            <span className="text-xs font-bold text-slate-400 self-center">vs</span>
 
             <select
               value={selectedBId}
               onChange={(e) => onSelectB(e.target.value)}
-              className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 focus:outline-emerald-600 cursor-pointer"
+              className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-emerald-600 cursor-pointer w-full sm:w-auto max-w-full sm:max-w-[210px] truncate"
+              aria-label="Select Scheme B"
             >
               {funds.map((f) => (
                 <option key={`b-${f.id}`} value={f.id} disabled={f.id === selectedAId}>
@@ -230,7 +232,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
           </div>
         </div>
 
-        <div className="text-xs text-slate-500 dark:text-slate-400">
+        <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
           Showing pairwise holding breakdown for <strong>{fundA.name.split(' - ')[0]}</strong> &amp; <strong>{fundB.name.split(' - ')[0]}</strong>
         </div>
       </div>
@@ -260,21 +262,21 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
           {/* Fund A Card */}
           <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4d857c]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4d857c] dark:bg-[#56b6c2]" />
               <span className="truncate">{fundA.name}</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 font-normal shrink-0">
+              <span className="text-xs text-slate-400 dark:text-slate-500 font-normal shrink-0 font-mono">
                 {fundA.totalStocksCount} stocks
               </span>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="bg-[#2f855a] text-white px-5 py-2.5 rounded-lg text-center min-w-[90px]">
-                <div className="text-xl font-bold leading-none">{commonStocksCount}</div>
+              <div className="bg-[#2f855a] dark:bg-[#162920] text-white dark:text-[#98c379] border border-transparent dark:border-[#264836] px-5 py-2.5 rounded-lg text-center min-w-[90px]">
+                <div className="text-xl font-bold leading-none font-mono">{commonStocksCount}</div>
                 <div className="text-[10px] font-medium tracking-wider uppercase mt-1">COMMON</div>
               </div>
 
               <div className="text-right">
-                <div className="text-2xl font-bold text-slate-800 dark:text-slate-200 leading-none">{fundAUniqueCount}</div>
+                <div className="text-2xl font-bold text-slate-800 dark:text-slate-200 leading-none font-mono">{fundAUniqueCount}</div>
                 <div className="text-[10px] font-medium tracking-wider uppercase text-slate-400 dark:text-slate-500 mt-1">UNIQUE</div>
               </div>
             </div>
@@ -283,21 +285,21 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
           {/* Fund B Card */}
           <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#c7945d]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#c7945d] dark:bg-[#e5c07b]" />
               <span className="truncate">{fundB.name}</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 font-normal shrink-0">
+              <span className="text-xs text-slate-400 dark:text-slate-500 font-normal shrink-0 font-mono">
                 {fundB.totalStocksCount} stocks
               </span>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="bg-[#2f855a] text-white px-5 py-2.5 rounded-lg text-center min-w-[90px]">
-                <div className="text-xl font-bold leading-none">{commonStocksCount}</div>
+              <div className="bg-[#2f855a] dark:bg-[#162920] text-white dark:text-[#98c379] border border-transparent dark:border-[#264836] px-5 py-2.5 rounded-lg text-center min-w-[90px]">
+                <div className="text-xl font-bold leading-none font-mono">{commonStocksCount}</div>
                 <div className="text-[10px] font-medium tracking-wider uppercase mt-1">COMMON</div>
               </div>
 
               <div className="text-right">
-                <div className="text-2xl font-bold text-slate-800 dark:text-slate-200 leading-none">{fundBUniqueCount}</div>
+                <div className="text-2xl font-bold text-slate-800 dark:text-slate-200 leading-none font-mono">{fundBUniqueCount}</div>
                 <div className="text-[10px] font-medium tracking-wider uppercase text-slate-400 dark:text-slate-500 mt-1">UNIQUE</div>
               </div>
             </div>
@@ -312,8 +314,6 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
             overlapPercent={overlapWeightPercent}
             commonStocksCount={commonStocksCount}
             totalUniqueCount={totalUniqueCount}
-            colorA="#4d857c"
-            colorB="#c7945d"
           />
         </div>
       </div>
@@ -328,14 +328,16 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               onClick={() => setActiveTab('common')}
               className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'common'
-                  ? 'bg-white dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 shadow-xs border border-slate-200 dark:border-slate-700'
+                  ? 'bg-white dark:bg-[#252834] text-emerald-800 dark:text-[#98c379] shadow-xs border border-slate-200 dark:border-[#383d50]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <span>COMMON STOCKS</span>
               <span
                 className={`px-1.5 py-0.5 rounded text-[11px] font-mono ${
-                  activeTab === 'common' ? 'bg-emerald-700 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                  activeTab === 'common'
+                    ? 'bg-emerald-700 dark:bg-[#1a3325] text-white dark:text-[#98c379]'
+                    : 'bg-slate-200 dark:bg-[#22222a] text-slate-700 dark:text-slate-300'
                 }`}
               >
                 {commonStocksCount}
@@ -347,7 +349,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               onClick={() => setActiveTab('schemeA')}
               className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'schemeA'
-                  ? 'bg-white dark:bg-slate-800 text-teal-800 dark:text-teal-300 shadow-xs border border-slate-200 dark:border-slate-700'
+                  ? 'bg-white dark:bg-[#1a252c] text-teal-800 dark:text-[#56b6c2] shadow-xs border border-slate-200 dark:border-[#2a404c]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -360,7 +362,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               onClick={() => setActiveTab('schemeB')}
               className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'schemeB'
-                  ? 'bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-300 shadow-xs border border-slate-200 dark:border-slate-700'
+                  ? 'bg-white dark:bg-[#272218] text-amber-800 dark:text-[#e5c07b] shadow-xs border border-slate-200 dark:border-[#423824]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -373,7 +375,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               onClick={() => setActiveTab('overall')}
               className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'overall'
-                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs border border-slate-200 dark:border-slate-700'
+                  ? 'bg-white dark:bg-[#22222a] text-slate-900 dark:text-white shadow-xs border border-slate-200 dark:border-[#333342]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -390,7 +392,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search stock or sector..."
-              className="w-full pl-8 pr-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-lg focus:outline-emerald-600"
+              className="w-full pl-8 pr-3 py-1.5 text-xs bg-white dark:bg-[#141416] border border-slate-300 dark:border-[#2e2e38] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-lg focus:outline-emerald-600 dark:focus:outline-[#56b6c2]"
             />
           </div>
         </div>
@@ -399,7 +401,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 select-none">
+              <tr className="border-b border-slate-200 dark:border-[#272731] bg-slate-50/50 dark:bg-[#1c1d24] text-slate-500 dark:text-slate-400 select-none">
                 <th className="py-3 px-4 w-12 font-medium">#</th>
                 <th
                   onClick={() => toggleSort('name')}
@@ -415,7 +417,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
                   className="py-3 px-4 text-right font-semibold text-slate-700 dark:text-slate-200 cursor-pointer hover:text-slate-900 dark:hover:text-white"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#4d857c]" />
+                    <span className="w-2 h-2 rounded-full bg-[#4d857c] dark:bg-[#56b6c2]" />
                     <span>Scheme A (%)</span>
                     <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
@@ -425,7 +427,7 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
                   className="py-3 px-4 text-right font-semibold text-slate-700 dark:text-slate-200 cursor-pointer hover:text-slate-900 dark:hover:text-white"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#c7945d]" />
+                    <span className="w-2 h-2 rounded-full bg-[#c7945d] dark:bg-[#e5c07b]" />
                     <span>Scheme B (%)</span>
                     <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
@@ -435,14 +437,14 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
                   className="py-3 px-4 text-right font-semibold text-slate-700 dark:text-slate-200 cursor-pointer hover:text-slate-900 dark:hover:text-white"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#98c379]" />
                     <span>Min Overlap (%)</span>
                     <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 font-sans">
+            <tbody className="divide-y divide-slate-100 dark:divide-[#252530] font-sans">
               {displayedItems.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-8 text-center text-slate-400 dark:text-slate-500">
@@ -451,28 +453,28 @@ export const PairwiseDeepDive: React.FC<PairwiseDeepDiveProps> = ({
                 </tr>
               ) : (
                 displayedItems.map((item, idx) => (
-                  <tr key={`${item.name}-${idx}`} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr key={`${item.name}-${idx}`} className="hover:bg-slate-50/70 dark:hover:bg-[#202028] transition-colors">
                     <td className="py-3 px-4 text-slate-400 dark:text-slate-500 font-mono text-[11px]">{idx + 1}</td>
                     <td className="py-3 px-4 font-medium text-slate-900 dark:text-white">
                       <div className="font-semibold text-slate-900 dark:text-white">{item.name}</div>
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400">
-                      <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium border border-slate-200/60 dark:border-slate-700/60">
+                      <span className="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-[#212128] text-slate-600 dark:text-slate-300 font-medium border border-slate-200/60 dark:border-[#2d2d38]">
                         {item.sector}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-medium text-[#2f855a] dark:text-emerald-400">
+                    <td className="py-3 px-4 text-right font-mono font-medium text-[#2f855a] dark:text-[#56b6c2]">
                       {item.weightA > 0 ? `${item.weightA.toFixed(2)}%` : '-'}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-medium text-[#b7791f] dark:text-amber-400">
+                    <td className="py-3 px-4 text-right font-mono font-medium text-[#b7791f] dark:text-[#e5c07b]">
                       {item.weightB > 0 ? `${item.weightB.toFixed(2)}%` : '-'}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-800 dark:text-slate-100">
+                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-800 dark:text-[#98c379]">
                       {item.overlapWeight > 0 ? (
                         <div className="flex items-center justify-end gap-2">
-                          <div className="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden hidden sm:block">
+                          <div className="w-16 h-1.5 bg-slate-100 dark:bg-[#24242e] rounded-full overflow-hidden hidden sm:block">
                             <div
-                              className="h-full bg-emerald-600 rounded-full"
+                              className="h-full bg-emerald-600 dark:bg-[#98c379] rounded-full"
                               style={{ width: `${Math.min(100, item.overlapWeight * 10)}%` }}
                             />
                           </div>

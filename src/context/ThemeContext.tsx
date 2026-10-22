@@ -43,7 +43,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       // Update meta theme-color for mobile status bar / TWA
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
-        metaThemeColor.setAttribute('content', resolvedDark ? '#0f172a' : '#047857');
+        metaThemeColor.setAttribute('content', resolvedDark ? '#141416' : '#047857');
       }
     };
 

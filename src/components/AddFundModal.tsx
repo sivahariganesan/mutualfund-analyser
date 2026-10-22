@@ -217,33 +217,33 @@ ITC Ltd., 3.2, Consumer Goods`
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 transition-colors">
+      <div className="bg-white dark:bg-[#18181b] rounded-2xl border border-slate-200 dark:border-[#2e2e38] shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 transition-colors">
         {/* Modal Header */}
-        <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/70">
+        <div className="p-5 border-b border-slate-200 dark:border-[#272731] flex items-center justify-between bg-slate-50 dark:bg-[#1e1e24]">
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Add Mutual Fund to Portfolio</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-zinc-400">
               Pick from verified catalog, live search 10,000+ AMFI open schemes, or input custom holdings
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-zinc-200 hover:bg-slate-200/60 dark:hover:bg-[#25252e] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex border-b border-slate-200 dark:border-slate-800 px-5 pt-3 gap-6 text-xs font-semibold overflow-x-auto bg-white dark:bg-slate-900">
+        <div className="flex border-b border-slate-200 dark:border-[#272731] px-5 pt-3 gap-6 text-xs font-semibold overflow-x-auto bg-white dark:bg-[#18181b]">
           <button
             type="button"
             onClick={() => setActiveTab('catalog')}
             className={`pb-3 transition-colors cursor-pointer border-b-2 flex items-center gap-1.5 shrink-0 ${
               activeTab === 'catalog'
-                ? 'border-emerald-600 dark:border-emerald-500 text-emerald-800 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'border-emerald-600 dark:border-[#56b6c2] text-emerald-800 dark:text-[#56b6c2]'
+                : 'border-transparent text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200'
             }`}
           >
             <Search className="w-3.5 h-3.5" />
@@ -255,13 +255,13 @@ ITC Ltd., 3.2, Consumer Goods`
             onClick={() => setActiveTab('amfi')}
             className={`pb-3 transition-colors cursor-pointer border-b-2 flex items-center gap-1.5 shrink-0 ${
               activeTab === 'amfi'
-                ? 'border-emerald-600 dark:border-emerald-500 text-emerald-800 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'border-emerald-600 dark:border-[#56b6c2] text-emerald-800 dark:text-[#56b6c2]'
+                : 'border-transparent text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200'
             }`}
           >
-            <Globe className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <Globe className="w-3.5 h-3.5 text-blue-600 dark:text-[#61afef]" />
             <span>Live AMFI Open API (10,000+ Funds)</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold border border-blue-200 dark:border-blue-900/40">
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-[#182635] text-blue-700 dark:text-[#61afef] font-bold border border-blue-200 dark:border-[#243c54]">
               Live
             </span>
           </button>
@@ -271,8 +271,8 @@ ITC Ltd., 3.2, Consumer Goods`
             onClick={() => setActiveTab('custom')}
             className={`pb-3 transition-colors cursor-pointer border-b-2 flex items-center gap-1.5 shrink-0 ${
               activeTab === 'custom'
-                ? 'border-emerald-600 dark:border-emerald-500 text-emerald-800 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'border-emerald-600 dark:border-[#56b6c2] text-emerald-800 dark:text-[#56b6c2]'
+                : 'border-transparent text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -281,24 +281,24 @@ ITC Ltd., 3.2, Consumer Goods`
         </div>
 
         {/* Content */}
-        <div className="p-5 overflow-y-auto flex-1 bg-white dark:bg-slate-900">
+        <div className="p-5 overflow-y-auto flex-1 bg-white dark:bg-[#18181b]">
           {activeTab === 'catalog' && (
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2">
                 <div className="relative flex-1 min-w-[200px]">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
                   <input
                     type="text"
                     value={catalogSearch}
                     onChange={(e) => setCatalogSearch(e.target.value)}
                     placeholder="Search verified fund name or AMC..."
-                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-emerald-600"
+                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-[#141416] border border-slate-300 dark:border-[#2e2e38] rounded-lg text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-emerald-600 dark:focus:outline-[#56b6c2]"
                   />
                 </div>
                 <select
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="text-xs text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-emerald-600"
+                  className="text-xs text-slate-700 dark:text-zinc-200 bg-slate-50 dark:bg-[#141416] border border-slate-300 dark:border-[#2e2e38] rounded-lg px-2.5 py-1.5 focus:outline-emerald-600 dark:focus:outline-[#56b6c2]"
                 >
                   <option value="All" className="bg-white dark:bg-slate-800">All Categories</option>
                   <option value="Flexi Cap" className="bg-white dark:bg-slate-800">Flexi Cap</option>
